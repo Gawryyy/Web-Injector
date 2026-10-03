@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Injector - Control Panel</title>
+    <link rel="stylesheet" href="/panel/panel.css">
+    <script src="/panel/panel.js" defer></script>
+</head>
+<body>
+    <main class="panel-shell">
+        <header>
+            <div>
+                <p class="eyebrow">LOCAL CONTROL PANEL</p>
+                <h1>Web Injector</h1>
+                <p>Controls only the test game running on <code>127.0.0.1</code>.</p>
+            </div>
+            <a class="open-game" href="/game" target="_blank" rel="noreferrer">Open game ↗</a>
+        </header>
+
+        <nav class="tabs" aria-label="Panel sections">
+            <button class="tab active" data-tab="player" type="button">Player</button>
+            <button class="tab" data-tab="injector" type="button">Injector</button>
+        </nav>
+
+        <section class="tab-page active" data-page="player">
+            <div class="grid">
+                <article class="card">
+                    <h2>Coins</h2>
+                    <div class="button-row">
+                        <button data-add-coins="100" type="button">+100</button>
+                        <button data-add-coins="1000" type="button">+1,000</button>
+                    </div>
+                    <form id="coins-form">
+                        <label for="coins-input">Set exact amount</label>
+                        <div class="input-row">
+                            <input id="coins-input" type="number" min="0" max="999999999" value="5000">
+                            <button type="submit">Set</button>
+                        </div>
+                    </form>
+                </article>
+
+                <article class="card">
+                    <h2>Health</h2>
+                    <div class="button-row">
+                        <button id="damage" type="button">-10 HP</button>
+                        <button id="heal" type="button">+10 HP</button>
+                        <button id="full-health" type="button">Full HP</button>
+                    </div>
+                </article>
+
+                <article class="card">
+                    <h2>Player</h2>
+                    <form id="player-form">
+                        <label for="name-input">Name</label>
+                        <input id="name-input" type="text" maxlength="24" value="gawr">
+                        <label for="level-input">Level</label>
+                        <input id="level-input" type="number" min="1" max="9999" value="1">
+                        <button type="submit">Apply player settings</button>
+                    </form>
+                </article>
+
+                <article class="card danger-card">
+                    <h2>Reset</h2>
+                    <p>Restore the default game state and remove injected HTML/CSS.</p>
+                    <button id="reset" class="danger" type="button">Reset test game</button>
+                </article>
+            </div>
+        </section>
+
+        <section class="tab-page" data-page="injector">
+            <article class="card injector-card">
+                <div class="injector-head">
+                    <div>
+                        <h2>Local page injector</h2>
+                        <p>Pick a type, write code, then send it to your test game tab.</p>
+                    </div>
+                    <select id="inject-kind" aria-label="Injection type">
+                        <option value="css">CSS</option>
+                        <option value="html">HTML</option>
+                        <option value="js">JavaScript</option>
+                    </select>
+                </div>
+
+                <textarea id="inject-code" spellcheck="false">#playground {
+    box-shadow: inset 0 0 80px rgba(255, 79, 163, .18);
+}</textarea>
+                <div class="button-row end">
+                    <button id="inject" class="primary" type="button">Inject into test game</button>
+                </div>
+            </article>
+        </section>
+
+        <p id="status" class="status" aria-live="polite">Ready.</p>
+    </main>
+</body>
+</html>

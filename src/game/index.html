@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Injector - Test Game</title>
+    <link rel="stylesheet" href="/game/game.css">
+    <script src="/game/game.js" defer></script>
+</head>
+<body>
+    <main class="game-shell">
+        <section class="hero-card">
+            <div>
+                <p class="eyebrow">LOCAL TEST GAME</p>
+                <h1>Arcade</h1>
+                <p class="subtext">This page is intentionally controlled by your local injector panel.</p>
+            </div>
+            <span class="live-pill"><span></span> live</span>
+        </section>
+
+        <section class="stats-grid">
+            <article class="stat-card">
+                <span class="label">Player</span>
+                <strong id="player-name">gawr</strong>
+            </article>
+            <article class="stat-card">
+                <span class="label">Coins</span>
+                <strong id="coins">100</strong>
+            </article>
+            <article class="stat-card">
+                <span class="label">Level</span>
+                <strong id="level">1</strong>
+            </article>
+        </section>
+
+        <section class="health-card">
+            <div class="health-header">
+                <span>Health</span>
+                <strong id="health-text">100 / 100</strong>
+            </div>
+            <div class="health-track">
+                <div id="health-bar" class="health-bar"></div>
+            </div>
+        </section>
+
+        <section id="playground" class="playground">
+            <div class="orb"></div>
+            <div class="orb orb-two"></div>
+            <div class="game-object">
+                <span>TEST OBJECT</span>
+                <small>Inject HTML, CSS or JS from the other tab.</small>
+            </div>
+        </section>
+
+        <section id="injected-html" class="injected-html" aria-live="polite"></section>
+    </main>
+</body>
+</html>
