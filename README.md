@@ -52,13 +52,61 @@ The launcher starts the server and opens:
 
 Press **Ctrl+C** in the launcher terminal to stop the server.
 
-## First things to try
+## Run on Windows
 
-1. Press **+100** in the control panel and watch the coin counter update in the game tab.
-2. Change the player's level or health.
-3. Open the **Injector** tab and inject the included CSS example.
-4. Switch the injector type to HTML or JavaScript and test the examples.
+Open **PowerShell** or **Command Prompt** in the project folder.
+
+Create a virtual environment:
+
+```powershell
+py -m venv .venv
+```
+
+Activate it in PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Or in Command Prompt:
+
+```cmd
+.venv\Scripts\activate.bat
+```
+
+Install the requirements:
+
+```powershell
+pip install -r requirements.txt
+```
+
+Start the launcher:
+
+```powershell
+py launcher.py
+```
+
+The launcher starts the server and opens:
+
+- `http://127.0.0.1:5000/game`
+- `http://127.0.0.1:5000/panel`
+
+Press **Ctrl+C** in the terminal to stop the server.
+
+If PowerShell blocks the activation script, run:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass
+```
+
+Then activate the environment again:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
 
 ## How the live updates work
 
-This first version uses **Server-Sent Events (SSE)** for server-to-browser updates. The file is still named `backend/websocket.py` to match the planned project layout, but SSE keeps the first version lightweight and requires no browser library.
+This first version uses **Server-Sent Events (SSE)** for server-to-browser updates.
+
+The file is still named `backend/websocket.py` to match the planned project layout, but SSE keeps the first version lightweight and requires no browser library.
