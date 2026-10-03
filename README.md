@@ -3,9 +3,6 @@
   <img src="assets/banner.svg" width="900" alt="Web Injector">
 </p>
 
-
-# Web Injector
-
 <p align="center">
   <a href="#setup">
     <img src="https://img.shields.io/badge/Setup-8A2BE2?style=for-the-badge&logo=linux&logoColor=white" alt="Setup">
