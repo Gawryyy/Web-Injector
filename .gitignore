@@ -5,6 +5,8 @@ __pycache__/
 *.py[cod]
 
 launcher_settings.json
+injector_targets.json
+injector_remote_allowlist.json
 
 .directory
 .DS_Store

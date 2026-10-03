@@ -42,9 +42,9 @@ SERVER_FILE = ROOT / "server.py"
 PFP_FILE = ROOT / "assets" / "images" / "PFP.jpg"
 
 WEBSITE_URL = "https://astraiii.com"
-DISCORD_URL = "https://discord.gg/vnZ3shANMf"
+DISCORD_URL = "https://discord.gg/yjPgv6vEvW"
 
-APP_VERSION = "v1.3"
+APP_VERSION = "v1.5"
 
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
@@ -93,6 +93,7 @@ LOG_GRADIENT = [
 def rgb(hex_color: str) -> tuple[int, int, int]:
     h = hex_color.lstrip("#")
     return tuple(int(h[i : i + 2], 16) for i in (0, 2, 4))
+
 
 def mix(a: str, b: str, t: float) -> str:
     ar, ag, ab = rgb(a)
@@ -293,6 +294,7 @@ class WebInjectorLauncher:
         if self.settings["auto_start"]:
             self.root.after(550, self.start_server)
 
+    # ---------- UI ----------
     def _build_ui(self) -> None:
         self.root.grid_columnconfigure(1, weight=1)
         self.root.grid_rowconfigure(0, weight=1)
@@ -360,7 +362,7 @@ class WebInjectorLauncher:
         GradientText(brand_text, "WEB INJECTOR", font=("Inter", 11, "bold")).pack(anchor="w")
         ctk.CTkLabel(
             brand_text,
-            text=f"LOCAL  •  {APP_VERSION}",
+            text=f"Gawr  •  {APP_VERSION}",
             text_color=C["muted"],
             font=("Inter", 8, "bold"),
         ).pack(anchor="w", pady=(2, 0))
@@ -432,7 +434,7 @@ class WebInjectorLauncher:
         self.page_title.pack(anchor="w")
         self.page_subtitle = ctk.CTkLabel(
             left,
-            text="Local web testing environment",
+            text="web environment",
             text_color=C["muted"],
             font=("Inter", 9),
             anchor="w",
@@ -467,9 +469,9 @@ class WebInjectorLauncher:
     def show_page(self, key: str) -> None:
         self.current_page = key
         titles = {
-            "dashboard": ("Dashboard", "Start, monitor and control your local test environment"),
+            "dashboard": ("Dashboard", "Start, monitor and control your web environment"),
             "settings": ("Settings", "Server and launch behavior"),
-            "info": ("Info", "What this local test lab is for"),
+            "info": ("Info", "What this web injector is for"),
             "credits": ("Credits", "Project creator and links"),
         }
         title, subtitle = titles[key]
@@ -482,6 +484,7 @@ class WebInjectorLauncher:
             else:
                 btn.configure(fg_color="transparent", text_color=C["muted"])
 
+    # ---------- common UI helpers ----------
     def _card(self, parent, *, corner: int = 22, fg: str | None = None) -> ctk.CTkFrame:
         return ctk.CTkFrame(
             parent,
@@ -549,10 +552,10 @@ class WebInjectorLauncher:
 
         hero_left = ctk.CTkFrame(hero, fg_color="transparent", corner_radius=0)
         hero_left.grid(row=0, column=0, sticky="w", padx=22, pady=20)
-        GradientText(hero_left, "LOCAL INJECTION", font=("Inter", 21, "bold")).pack(anchor="w")
+        GradientText(hero_left, "WEB INJECTION", font=("Inter", 21, "bold")).pack(anchor="w")
         ctk.CTkLabel(
             hero_left,
-            text="A polished local sandbox for state changes, DOM injection and live browser tooling.",
+            text="A polished sandbox for state changes, DOM injection and live browser tooling.",
             text_color=C["muted"],
             font=("Inter", 9),
         ).pack(anchor="w", pady=(4, 0))
@@ -569,7 +572,7 @@ class WebInjectorLauncher:
         for i in range(4):
             status_wrap.grid_columnconfigure(i, weight=1, uniform="status")
         self.status_server = StatusCard(status_wrap, "◈", "Server")
-        self.status_game = StatusCard(status_wrap, "▶", "Test game")
+        self.status_game = StatusCard(status_wrap, "▶", "Selected target")
         self.status_panel = StatusCard(status_wrap, "⌘", "Control panel")
         self.status_injection = StatusCard(status_wrap, "⚡", "Injection API")
         cards = (self.status_server, self.status_game, self.status_panel, self.status_injection)
@@ -587,8 +590,8 @@ class WebInjectorLauncher:
 
         quick = self._card(left)
         quick.pack(fill="x", pady=(0, 12))
-        self._section(quick, "Quick launch", "Open either side of the local environment").pack(fill="x", padx=18, pady=(17, 12))
-        self._button(quick, "◎  Open test game", self.open_game).pack(fill="x", padx=18, pady=(0, 7))
+        self._section(quick, "Quick launch", "Open either side of the web environment").pack(fill="x", padx=18, pady=(17, 12))
+        self._button(quick, "◎  Open selected target", self.open_game).pack(fill="x", padx=18, pady=(0, 7))
         self._button(quick, "⌘  Open control panel", self.open_panel).pack(fill="x", padx=18, pady=(0, 18))
 
         runtime = self._card(left)
@@ -656,7 +659,7 @@ class WebInjectorLauncher:
 
         server = self._card(page, corner=24)
         server.grid(row=0, column=0, sticky="nsew", padx=(0, 7))
-        self._section(server, "Server", "Choose where the local Flask server listens").pack(fill="x", padx=22, pady=(20, 18))
+        self._section(server, "Server", "Choose where the Flask server listens").pack(fill="x", padx=22, pady=(20, 18))
         self._setting_entry(server, "Host", "127.0.0.1 keeps this project local to your computer.", self.host_var)
         self._setting_entry(server, "Port", "Choose a TCP port between 1024 and 65535.", self.port_var)
         self._button(server, "Save server settings", self.save_settings_from_controls, accent=True).pack(anchor="w", padx=22, pady=(7, 22))
@@ -665,7 +668,7 @@ class WebInjectorLauncher:
         behavior.grid(row=0, column=1, sticky="nsew", padx=(7, 0))
         self._section(behavior, "Launch behavior", "Choose what happens when the launcher starts").pack(fill="x", padx=22, pady=(20, 12))
         self._toggle_row(behavior, "Auto-start server", "Start the local server when this launcher opens.", self.auto_start_var)
-        self._toggle_row(behavior, "Open test game", "Open the game after a successful connection.", self.open_game_var)
+        self._toggle_row(behavior, "Open selected target", "Open the currently selected web target through the injector proxy.", self.open_game_var)
         self._toggle_row(behavior, "Open control panel", "Open the panel after a successful connection.", self.open_panel_var)
         self._button(behavior, "Save launch behavior", self.save_settings_from_controls).pack(anchor="w", padx=22, pady=(10, 22))
 
@@ -706,7 +709,7 @@ class WebInjectorLauncher:
             text=(
                 "Web Injector runs a test game and a control panel on your own computer. "
                 "The panel can change the test game's state and send HTML, CSS or JavaScript "
-                "into that local page so you can see how DOM changes, APIs, Python backends "
+                "into that web page so you can see how DOM changes, APIs, Python backends "
                 "and live updates work together."
             ),
             text_color=C["text2"],
@@ -732,7 +735,7 @@ class WebInjectorLauncher:
 
         scope = self._card(cols)
         scope.grid(row=0, column=1, sticky="nsew", padx=(7, 0))
-        self._section(scope, "Project scope", "A local sandbox, not a random-site tool").pack(fill="x", padx=20, pady=(19, 12))
+        self._section(scope, "Project scope", "A web sandbox, not a random-site tool").pack(fill="x", padx=20, pady=(19, 12))
         ctk.CTkLabel(
             scope,
             text=(
@@ -785,7 +788,7 @@ class WebInjectorLauncher:
 
         ctk.CTkLabel(
             card,
-            text="Web Injector local test lab",
+            text="Web Injector",
             text_color=C["muted"],
             font=("Inter", 9),
             anchor="w",
@@ -801,7 +804,7 @@ class WebInjectorLauncher:
 
         foot = ctk.CTkLabel(
             page,
-            text=f"Web Injector {APP_VERSION}  •  Local test environment",
+            text=f"Web Injector {APP_VERSION}  •  web test environment",
             text_color=C["gray"],
             font=("JetBrains Mono", 8),
         )
@@ -865,6 +868,7 @@ class WebInjectorLauncher:
         label.grid(row=0, column=1, sticky="e", padx=11, pady=9)
         return label
 
+    # ---------- settings ----------
     def load_settings(self) -> dict:
         settings = dict(DEFAULT_SETTINGS)
         if SETTINGS_FILE.exists():
@@ -904,6 +908,7 @@ class WebInjectorLauncher:
         if self.is_running() and old_endpoint != (host, port):
             self.log("Endpoint changed. Restart the server to apply it.", "WARN")
 
+    # ---------- URLs ----------
     @property
     def base_url(self) -> str:
         host = str(self.settings["host"])
@@ -918,8 +923,8 @@ class WebInjectorLauncher:
             self.runtime_endpoint.configure(text=endpoint)
 
     def open_game(self) -> None:
-        webbrowser.open(f"{self.base_url}/game")
-        self.log("Opening test game.", "INFO")
+        webbrowser.open(f"{self.base_url}/target/")
+        self.log("Opening selected target.", "INFO")
 
     def open_panel(self) -> None:
         webbrowser.open(f"{self.base_url}/panel")
@@ -940,6 +945,7 @@ class WebInjectorLauncher:
             )
             self.log("Discord link is not configured yet.", "WARN")
 
+    # ---------- server lifecycle ----------
     def is_running(self) -> bool:
         return self.server_process is not None and self.server_process.poll() is None
 
@@ -1024,7 +1030,7 @@ class WebInjectorLauncher:
         self.root.after(0, lambda: self._server_start_failed("Server did not become ready in time."))
 
     def _server_connected(self) -> None:
-        self.log("Connected to local server.", "OK")
+        self.log("Connected to server.", "OK")
         self.status_server.set_state("green", "Online")
         self._set_global_state("green", "ONLINE")
         self._schedule_probe(force=True)
@@ -1080,6 +1086,7 @@ class WebInjectorLauncher:
         if not self._closing and process.returncode not in (None, 0, -15):
             self.log_queue.put((f"Server process ended with code {process.returncode}.", "ERROR"))
 
+    # ---------- probes ----------
     def _probe_url(self, url: str) -> bool:
         try:
             request = urllib.request.Request(url, headers={"User-Agent": "WebInjectorLauncher/1.3"})
@@ -1107,7 +1114,7 @@ class WebInjectorLauncher:
         base = self.base_url
         results = {
             "server": self._probe_url(f"{base}/health"),
-            "game": self._probe_url(f"{base}/game"),
+            "game": self._probe_url(f"{base}/api/target/status"),
             "panel": self._probe_url(f"{base}/panel"),
             "injection": self._probe_url(f"{base}/api/state"),
         }
@@ -1147,7 +1154,7 @@ class WebInjectorLauncher:
             if results["server"] and not previous["server"]:
                 self.log("Server connection restored.", "OK")
             elif previous["server"] and not results["server"] and expected:
-                self.log("Lost connection to local server.", "ERROR")
+                self.log("Lost connection to server.", "ERROR")
             if results["game"] and not previous["game"]:
                 self.log("Test game is reachable.", "OK")
             if results["panel"] and not previous["panel"]:
@@ -1162,6 +1169,7 @@ class WebInjectorLauncher:
         self._last_probe_results = dict(results)
         self._update_runtime_labels()
 
+    # ---------- status / logs ----------
     def _set_all_statuses(self, state: str) -> None:
         text = "Disconnected" if state == "gray" else "Offline"
         for item in (self.status_server, self.status_game, self.status_panel, self.status_injection):
@@ -1212,6 +1220,7 @@ class WebInjectorLauncher:
         self.log_text.configure(state="disabled")
         self.log_color_index = 0
 
+    # ---------- runtime ----------
     def _update_runtime_labels(self) -> None:
         if not hasattr(self, "runtime_pid"):
             return

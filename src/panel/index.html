@@ -1,97 +1,195 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Injector - Control Panel</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Web Injector</title>
     <link rel="stylesheet" href="/panel/panel.css">
     <script src="/panel/panel.js" defer></script>
 </head>
 <body>
-    <main class="panel-shell">
-        <header>
+    <div class="ambient one"></div>
+    <div class="ambient two"></div>
+    <div class="ambient three"></div>
+
+    <main class="shell">
+        <header class="topbar glass">
             <div>
-                <p class="eyebrow">LOCAL CONTROL PANEL</p>
-                <h1>Web Injector</h1>
-                <p>Controls only the test game running on <code>127.0.0.1</code>.</p>
+                <div class="eyebrow">WEB INJECTION LAB</div>
+                <h1>WEB <span>INJECTOR</span></h1>
+                <p>Switch targets without rebuilding the injector</p>
             </div>
-            <a class="open-game" href="/game" target="_blank" rel="noreferrer">Open game ↗</a>
+
+            <div class="status-wrap">
+                <div class="target-box">
+                    <small>SELECTED TARGET</small>
+                    <strong id="target-label">Test Game</strong>
+                </div>
+
+                <div id="target-status" class="status offline">
+                    <i></i>
+                    <span>Checking…</span>
+                </div>
+            </div>
         </header>
 
-        <nav class="tabs" aria-label="Panel sections">
-            <button class="tab active" data-tab="player" type="button">Player</button>
-            <button class="tab" data-tab="injector" type="button">Injector</button>
-        </nav>
+        <section class="layout">
+            <aside class="sidebar glass">
+                <div class="section-title">
+                    <small>TARGET MANAGER</small>
+                    <h2>Choose a page</h2>
+                </div>
 
-        <section class="tab-page active" data-page="player">
-            <div class="grid">
-                <article class="card">
-                    <h2>Coins</h2>
-                    <div class="button-row">
-                        <button data-add-coins="100" type="button">+100</button>
-                        <button data-add-coins="1000" type="button">+1,000</button>
+                <label class="field-label" for="target-select">Saved targets</label>
+                <select id="target-select"></select>
+
+                <div class="target-actions">
+                    <button class="primary" id="select-target">Use target</button>
+                    <button class="secondary danger" id="delete-target">Delete</button>
+                </div>
+
+                <button class="secondary full" id="open-target">Open proxied target</button>
+                <button class="secondary full" id="reload-target">Reload target</button>
+
+                <div class="divider"></div>
+
+                <div class="section-title compact">
+                    <small>ADD TARGET</small>
+                    <h3>New project</h3>
+                </div>
+
+                <label class="field-label" for="new-target-name">Name</label>
+                <input id="new-target-name" type="text" maxlength="64" placeholder="name">
+
+                <label class="field-label" for="new-target-url">Website URL</label>
+                <input id="new-target-url" type="url" placeholder="Domain url">
+
+                <button class="primary full" id="add-target">Add + select</button>
+
+                <div class="info-card">
+                    <small>LOCAL + YOUR PUBLIC SITES</small>
+                    <p>
+                        Local/NovaDev targets work instantly. The first time you add a public
+                        domain, Web Injector asks you to confirm that you <b>own or control</b>
+                        that site. After that it is remembered automatically.
+                    </p>
+                </div>
+            </aside>
+
+            <section class="workspace glass">
+                <div class="workspace-head">
+                    <div>
+                        <div class="eyebrow">PAYLOAD EDITOR</div>
+                        <h2>Inject into the selected target</h2>
                     </div>
-                    <form id="coins-form">
-                        <label for="coins-input">Set exact amount</label>
-                        <div class="input-row">
-                            <input id="coins-input" type="number" min="0" max="999999999" value="5000">
-                            <button type="submit">Set</button>
+
+                    <div class="tabs">
+                        <button class="tab active" data-type="html">HTML</button>
+                        <button class="tab" data-type="css">CSS</button>
+                        <button class="tab" data-type="js">JavaScript</button>
+                    </div>
+                </div>
+
+                <div class="editor-shell">
+                    <div class="editor-top">
+                        <span id="editor-language">HTML</span>
+
+                        <div>
+                            <button class="tiny" id="clear-editor">Clear</button>
+                            <button class="tiny" id="save-payload">Save</button>
                         </div>
-                    </form>
-                </article>
-
-                <article class="card">
-                    <h2>Health</h2>
-                    <div class="button-row">
-                        <button id="damage" type="button">-10 HP</button>
-                        <button id="heal" type="button">+10 HP</button>
-                        <button id="full-health" type="button">Full HP</button>
                     </div>
-                </article>
 
-                <article class="card">
-                    <h2>Player</h2>
-                    <form id="player-form">
-                        <label for="name-input">Name</label>
-                        <input id="name-input" type="text" maxlength="24" value="gawr">
-                        <label for="level-input">Level</label>
-                        <input id="level-input" type="number" min="1" max="9999" value="1">
-                        <button type="submit">Apply player settings</button>
-                    </form>
-                </article>
+                    <textarea id="payload" spellcheck="false"
+placeholder="Paste HTML here and press Inject…"></textarea>
+                </div>
 
-                <article class="card danger-card">
-                    <h2>Reset</h2>
-                    <p>Restore the default game state and remove injected HTML/CSS.</p>
-                    <button id="reset" class="danger" type="button">Reset test game</button>
-                </article>
+                <div class="actions">
+                    <div id="message" class="message">Ready.</div>
+                    <button class="inject" id="inject-button">Inject HTML</button>
+                </div>
+            </section>
+
+            <aside class="rightbar glass">
+                <div class="section-title">
+                    <small>SAVED PAYLOADS</small>
+                    <h2>Your scripts</h2>
+                </div>
+
+                <div id="saved-payloads" class="saved-list"></div>
+
+                <div class="divider"></div>
+
+                <div class="section-title compact">
+                    <small>STARTER PAYLOADS</small>
+                    <h3>Generic tests</h3>
+                </div>
+
+                <button class="preset" data-preset="badge">HTML debug card</button>
+                <button class="preset" data-preset="outline">CSS element outlines</button>
+                <button class="preset" data-preset="darken">CSS dark overlay test</button>
+                <button class="preset" data-preset="console">JS console test</button>
+                <button class="preset" data-preset="title">JS change page title</button>
+
+                <div class="info-card">
+                    <small>USE THE PROXY TAB</small>
+                    <p>
+                        Injection is applied to <b>127.0.0.1:5000/target/</b>.
+                        A direct project tab is not connected to the bridge.
+                    </p>
+                </div>
+            </aside>
+        </section>
+
+        <section class="activity glass">
+            <div>
+                <div class="eyebrow">CURRENT ROUTE</div>
+                <h3>Panel → proxy → selected local target</h3>
+            </div>
+
+            <div class="flow">
+                <span>Panel</span><b>→</b>
+                <span>127.0.0.1:5000</span><b>→</b>
+                <span id="flow-target">Test Game</span>
             </div>
         </section>
-
-        <section class="tab-page" data-page="injector">
-            <article class="card injector-card">
-                <div class="injector-head">
-                    <div>
-                        <h2>Local page injector</h2>
-                        <p>Pick a type, write code, then send it to your test game tab.</p>
-                    </div>
-                    <select id="inject-kind" aria-label="Injection type">
-                        <option value="css">CSS</option>
-                        <option value="html">HTML</option>
-                        <option value="js">JavaScript</option>
-                    </select>
-                </div>
-
-                <textarea id="inject-code" spellcheck="false">#playground {
-    box-shadow: inset 0 0 80px rgba(255, 79, 163, .18);
-}</textarea>
-                <div class="button-row end">
-                    <button id="inject" class="primary" type="button">Inject into test game</button>
-                </div>
-            </article>
-        </section>
-
-        <p id="status" class="status" aria-live="polite">Ready.</p>
     </main>
+
+    <dialog id="save-dialog">
+        <form method="dialog" id="save-form">
+            <div class="eyebrow">SAVE PAYLOAD</div>
+            <h3>Name this payload</h3>
+            <input id="payload-name" maxlength="60" placeholder="My test payload" autofocus>
+
+            <div class="dialog-actions">
+                <button value="cancel" class="secondary">Cancel</button>
+                <button value="default" id="confirm-save" class="primary">Save</button>
+            </div>
+        </form>
+    </dialog>
+
+    <dialog id="trust-dialog">
+        <form method="dialog" id="trust-form">
+            <div class="eyebrow">PUBLIC DOMAIN</div>
+            <h3>Trust <span id="trust-host">this domain</span>?</h3>
+
+            <p style="margin:10px 0 16px;color:#8f98ab;font-size:12px;line-height:1.55;">
+                Continue only for a website you own or are authorized to test.
+                Web Injector will remember this domain after you approve it once.
+            </p>
+
+            <label style="display:flex;align-items:flex-start;gap:10px;color:#d8d7e0;font-size:12px;line-height:1.45;">
+                <input id="trust-confirm" type="checkbox"
+                       style="width:18px;height:18px;margin-top:1px;flex:0 0 auto;">
+                <span>I own/control this domain or have permission to test it.</span>
+            </label>
+
+            <div class="dialog-actions">
+                <button value="cancel" class="secondary">Cancel</button>
+                <button value="default" class="primary">Trust + add</button>
+            </div>
+        </form>
+    </dialog>
+
 </body>
 </html>
