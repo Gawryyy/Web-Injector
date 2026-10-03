@@ -1,3 +1,9 @@
+
+<p align="center">
+  <img src="assets/banner.svg" width="100%" alt="Web Injector">
+</p>
+
+
 # Web Injector
 
 <p align="center">
@@ -15,6 +21,9 @@
   </a>
   <a href="#api">
     <img src="https://img.shields.io/badge/API-4F9DFF?style=for-the-badge&logo=flask&logoColor=white" alt="API">
+  </a>
+  <a href="#previews">
+    <img src="https://img.shields.io/badge/Previews-FF4FA3?style=for-the-badge&logo=github&logoColor=white" alt="Previews">
   </a>
   <a href="#security">
     <img src="https://img.shields.io/badge/Security-2EA44F?style=for-the-badge&logo=shield&logoColor=white" alt="Security">
@@ -1182,6 +1191,19 @@ Then:
 ```
 
 ---
+
+<a id="previews"></a>
+
+# Previews
+
+<p align="center">
+  <img src="assets/previews/Loader.png" width="48%" alt="Loader">
+  <img src="assets/previews/LoaderInAction.png" width="48%" alt="Loader In Action">
+</p>
+
+<p align="center">
+  <img src="assets/previews/Panel.png" width="75%" alt="Control Panel">
+</p>
 
 <a id="security"></a>
 
