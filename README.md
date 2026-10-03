@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="assets/banner.svg" width="100%" alt="Web Injector">
+  <img src="assets/banner.svg" width="850" alt="Web Injector">
 </p>
 
 
