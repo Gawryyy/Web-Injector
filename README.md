@@ -537,30 +537,6 @@ Currently Selected Target
 
 ---
 
-## Git Ignore
-
-The target files contain user-specific runtime settings, so they normally should not be committed to GitHub.
-
-Add this to `.gitignore`:
-
-```gitignore
-.venv/
-__pycache__/
-*.pyc
-
-injector_targets.json
-injector_remote_allowlist.json
-```
-
-You can optionally create example files:
-
-```text
-injector_targets.example.json
-injector_remote_allowlist.example.json
-```
-
----
-
 <a id="injection-types"></a>
 
 # Injection Types
