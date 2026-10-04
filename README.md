@@ -825,7 +825,7 @@ Add:
 
 ```text
 Name:
-Astraii
+YouTube
 
 URL:
 https://youtube.com
@@ -888,7 +888,7 @@ Example target list:
 ```text
 Test Game
 GridShift
-Astraii
+YouTube
 My Local Website
 ```
 
@@ -1220,28 +1220,6 @@ WebSockets
 Because Web Injector loads websites through a local proxy, some complex websites may require additional proxy compatibility work.
 
 Simple websites and development projects should generally be easier to test.
-
----
-
-# GitHub
-
-Recommended `.gitignore`:
-
-```gitignore
-.venv/
-__pycache__/
-*.pyc
-
-injector_targets.json
-injector_remote_allowlist.json
-```
-
-Optional example configuration files:
-
-```text
-injector_targets.example.json
-injector_remote_allowlist.example.json
-```
 
 ---
 
